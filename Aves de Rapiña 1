@@ -1,0 +1,115 @@
+
+
+// variables ellipse
+int x;
+int y;
+int rad = 60;       
+float xpos, ypos;     
+float xspeed = 2.8; 
+float yspeed = 2.2; 
+int xdirection = 1; 
+int ydirection = 1; 
+
+
+
+//variables pajaros
+PShape currentShape;
+int A;
+int B;
+int tileCount = 15;
+float tileWidth, tileHeight;
+float shapeSize = 70;
+float newShapeSize = shapeSize;
+float shapeAngle = 0;
+float maxDist;
+shapeColor = color(0);
+int fillMode = 0;
+int sizeMode = 1;
+
+
+
+void setup()
+
+{
+  size(800, 800);
+
+  //setup elipse
+  ellipseMode(RADIUS);
+  xpos = width/3;
+  ypos = height/3;
+
+  //setup pajaros
+  tileWidth = width/float(tileCount);
+  tileHeight = height/float(tileCount);
+  maxDist = sqrt(sq(width)+sq(height));
+  currentShape = loadShape("flyingbird_copia.svg" );
+
+}
+
+
+
+void draw()
+
+{
+  background(250);
+
+//loop pajaros
+for (int A=0; A< width/2; A++) {
+       for (int B=0; B< height/2; B++) {
+  }
+}
+
+  for (int gridB=0; gridB<tileCount; gridB++) {
+    for (int gridA=0; gridA<tileCount; gridA++) {
+
+      float posA = tileWidth*gridA - tileWidth/2;
+      float posB = tileHeight*gridB + tileWidth/2;
+
+      float angle = atan2(xpos  -posB, ypos -posA) + radians(shapeAngle);
+
+      if (sizeMode == 0) newShapeSize = shapeSize;
+      if (sizeMode == 1) newShapeSize = shapeSize * 1.5 - map(dist(xpos, ypos,posA,posB),0,350,5,shapeSize);
+      if (sizeMode == 2) newShapeSize = map(dist(xpos, ypos, posA, posB),0,800, 5,shapeSize);
+
+      if (fillMode == 0) currentShape.enableStyle();
+      if (fillMode == 1) {
+        currentShape.disableStyle();
+        fill(shapeColor);     
+      }
+      if (fillMode == 2) {
+        currentShape.disableStyle();
+        float a = map(dist(xpos, ypos, posA, posB), 0,maxDist, 255,0);
+        fill(shapeColor, a);     
+      }
+      if (fillMode == 3) {
+        currentShape.disableStyle();
+        float a = map(dist(xpos, ypos, posA, posB), 0,maxDist, 0,255);
+        fill(shapeColor, a);     
+      }
+
+      pushMatrix();
+      translate(posA, posB);
+      rotate(angle);
+      shapeMode(CENTER);
+
+      noStroke();
+      shape(currentShape, 0,0, newShapeSize,newShapeSize);
+      popMatrix();
+    }
+  }
+
+
+  // loop elipse
+  xpos = xpos + ( xspeed * xdirection );
+  ypos = ypos + ( yspeed * ydirection );
+
+  if (xpos > width-rad || xpos < rad) {
+    xdirection *= -1;
+  }
+  if (ypos > height-rad || ypos < rad) {
+    ydirection *= -1;
+  }
+
+  fill(#DC143C);
+  ellipse(xpos, ypos, rad, rad);
+}
