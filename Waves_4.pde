@@ -1,36 +1,31 @@
 
 
-  PImage img;
-  int ranges = 300;
+ int ranges = 300;
 
 
-void setup(){
+  void setup(){
   size(800, 800);
   frameRate(10);
   smooth();
-
-  img = loadImage("Barco.png");
-
 }
 
 
-void draw(){
+  void draw(){
 
-
-  background(235);
+  background(#DC143C);
   noFill();
-  strokeWeight(2);
+  strokeWeight(1.5);
 
    pushMatrix();
 
    for (int i = 0; i < ranges; i++) {
     float paint = map(i, 0, ranges, 0, 240);
-    stroke(paint);
+    //stroke(paint);
 
     translate( 0, -3);
 
     beginShape();
-    stroke( random(0, 240));
+    stroke( #8B0000);
 
     for (int x = -10; x < width + 11; x += 20) {
       float n = noise(x * 0.001, i * 0.01, frameCount * 0.02);
@@ -48,12 +43,14 @@ void draw(){
   for (int i = 0; i < ranges; i++) {
     float paint = map(i, 0, ranges, 0, 240);
     stroke(paint);
-
+    //stroke(10);
+    
     translate( 0, 5);
 
     beginShape();
-    //stroke(#4682B4);
-
+    
+     strokeWeight(2);
+     
     for (int x = -10; x < width + 11; x += 20) {
       float n = noise(x * 0.001, i * 0.01, frameCount * 0.02);
       float y = map(n, 0, 1, 0, height);
@@ -63,32 +60,26 @@ void draw(){
   }
 
   popMatrix();
+
 
 
   pushMatrix();
 
-  for (int i = 0; i < ranges; i++) {
-    float paint = map(i, 0, ranges, 0, 240);
-    stroke(paint);
-
-    translate( 0, 30);
-
-    beginShape();
-    //stroke(#4682B4);
-
+ for (int i = 0; i < ranges; i++) {
+    float paint = map(i, 0, ranges /2, #B0C4DE, #DC143C);
+    //stroke(paint);
+    stroke(#B0C4DE);
+    
+    //beginShape();
     for (int x = -10; x < width + 11; x += 20) {
       float n = noise(x * 0.001, i * 0.01, frameCount * 0.02);
       float y = map(n, 0, 1, 0, height);
       vertex(x, y);
     }
-    endShape();
-  }
+    //endShape();
 
+  }
+  
   popMatrix();
 
-
-  image(img, mouseX, mouseY, width/4, height/10);
-
-  saveFrame("frames02/###.png");
-  
 }
